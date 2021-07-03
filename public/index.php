@@ -1,4 +1,4 @@
 <?php
 declare(strict_types=1);
 
-require __DIR__ . '../../app/App/App.php';
+require __DIR__ . '../../src/App/App.php';
