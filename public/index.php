@@ -8,5 +8,5 @@ try {
     $app->run();
 } catch (Exception $e) {
     // We display a error message
-    die( json_encode(array("status" => "failed", "message" => "This action is not allowed")));
+    die( json_encode(array("status" => "failed", "message" => $e->getMessage())));
 }

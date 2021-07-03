@@ -1,9 +1,12 @@
 <?php
 declare(strict_types=1);
+
 namespace App;
 
 use DI\Container;
 use PDO;
+use App\Repository\AdRepository;
+use App\Service\AdService;
 
 class ContainerBuilder
 {
@@ -19,6 +22,8 @@ class ContainerBuilder
     public function createContainer(): Container
     {
         $this->setDatabase();
+        $this->setAdRepository();
+        $this->setAdService();
         return $this->container;
     }
 
@@ -38,6 +43,20 @@ class ContainerBuilder
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
             return $pdo;
+        });
+    }
+
+    private function setAdRepository(): void
+    {
+        $this->container->set('ad_repository', function (): adRepository {
+           return new AdRepository($this->container->get('db'));
+        });
+    }
+
+    private function setAdService(): void
+    {
+        $this->container->set('ad_service', function (): adService {
+           return new AdService($this->container->get('ad_repository'));
         });
     }
 }
