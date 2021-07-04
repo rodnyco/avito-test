@@ -8,7 +8,7 @@ final class AdRepository extends AbstractRepository
 {
     public function getAds(): array
     {
-        $query = "SELECT * FROM `test`";
+        $query = "SELECT `title`, `photo`, `price` FROM `ads`";
         $statement = $this->database->prepare($query);
         $statement->execute();
 

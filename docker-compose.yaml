@@ -20,7 +20,9 @@ services:
             MYSQL_USER: 'root'
             MYSQL_PASSWORD: 'root'
             MYSQL_DATABASE: 'ads'
+        command: --init-file /docker-entrypoint-initdb.d/setup.sql
         volumes:
+            - ./database/setup.sql:/docker-entrypoint-initdb.d/setup.sql
             - mysqldata:/var/lib/mysql
         ports:
             - 3306:3306
