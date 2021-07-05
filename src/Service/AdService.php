@@ -5,8 +5,10 @@ namespace App\Service;
 
 class AdService extends AbstractAdService
 {
-    public function getAllAds(): array
+    private int $perPage = 10;
+
+    public function getAdsByPage(int $page): array
     {
-        return $this->adRepository->getAds();
+        return $this->adRepository->getAdsByPage($page, $this->perPage);
     }
 }

@@ -6,13 +6,18 @@ namespace App\Repository;
 
 final class AdRepository extends AbstractRepository
 {
-    public function getAds(): array
+    public function getAdsByPage(int $page, int $perPage): array
     {
         //TODO: select fields from parameter
         $query = "SELECT `title`, `photo`, `price` FROM `ads`";
         $statement = $this->database->prepare($query);
         $statement->execute();
-
-        return (array) $statement->fetchAll();
+        $total = $statement->rowCount();
+        return $this->getResultsWithPagination(
+            $query,
+            $page,
+            $perPage,
+            $total
+        );
     }
 }

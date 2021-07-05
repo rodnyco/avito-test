@@ -13,9 +13,12 @@ class AdController extends AbstractController
     {
         //
     }
-    public function getAll(Request $request, Response $response): Response
+    public function getByPage(Request $request, Response $response): Response
     {
-        $ads = $this->getAdService()->getAllAds();
+        $page = intval($request->getQueryParams()['page']);
+        //TODO: this filtered in middleware
+        if($page < 1) $page = 1;
+        $ads = $this->getAdService()->getAdsByPage($page);
 
         return $this->jsonResponse($response, 'success', $ads, 200);
     }
