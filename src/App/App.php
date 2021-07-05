@@ -5,10 +5,11 @@ declare(strict_types=1);
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
+use Slim\Routing\RouteCollectorProxy;
 
 use App\ContainerBuilder;
-use App\Controller\Ad;
-use Slim\Routing\RouteCollectorProxy;
+use App\Controller\AdController;
+
 
 require __DIR__ . '../../../vendor/autoload.php';
 
@@ -26,5 +27,5 @@ $app->get('/foo', function (Request $request, Response $response, array $args) {
 });
 
 $app->group('/ads', function (RouteCollectorProxy $group) : void {
-    $group->get('/', Ad\GetAll::class);
+    $group->get('/', ['App\Controller\AdController', 'getAll']);
 });
