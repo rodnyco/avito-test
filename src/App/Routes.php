@@ -6,5 +6,5 @@ use Slim\Routing\RouteCollectorProxy;
 /** @var \Slim\Factory\AppFactory $app */
 
 $app->group('/ads', function (RouteCollectorProxy $group) : void {
-    $group->get('/', ['App\Controller\AdController', 'getAll']);
+    $group->get('/', ['App\Controller\AdController', 'getByPage']);
 });

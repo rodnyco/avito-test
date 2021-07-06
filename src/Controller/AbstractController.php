@@ -38,4 +38,16 @@ abstract class AbstractController
     {
         return $this->container->get('ad_service');
     }
+
+    protected function getSortingFields(string $fields): array
+    {
+        $fields = explode(',', $fields);
+        $sortingFields = [];
+        foreach ($fields as $field) {
+            $sortingList = explode(':', $field);
+            $sortingFields[$sortingList[0]] = $sortingList[1];
+        }
+
+        return $sortingFields;
+    }
 }

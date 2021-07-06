@@ -15,10 +15,15 @@ class AdController extends AbstractController
     }
     public function getByPage(Request $request, Response $response): Response
     {
+        //TODO: set deafault soring in middleware
+        $sorting = $this->getSortingFields(
+            $request->getQueryParams()['sort']
+        );
+        //TODO: set page in middleware
         $page = intval($request->getQueryParams()['page']);
         //TODO: this filtered in middleware
         if($page < 1) $page = 1;
-        $ads = $this->getAdService()->getAdsByPage($page);
+        $ads = $this->getAdService()->getAdsByPage($page, $sorting);
 
         return $this->jsonResponse($response, 'success', $ads, 200);
     }
