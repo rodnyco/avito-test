@@ -24,7 +24,9 @@ class AdController extends AbstractController
         //TODO: this filtered in middleware
         if($page < 1) $page = 1;
         $ads = $this->getAdService()->getAdsByPage($page, $sorting);
-
+        $message = [
+            'pagination' => $ads['pagination']
+        ];
         return $this->jsonResponse($response, 'success', $ads, 200);
     }
 
