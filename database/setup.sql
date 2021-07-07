@@ -1,9 +1,10 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for tasks
+-- Table structure for ads
 -- ----------------------------
 USE ads;
+DROP TABLE IF EXISTS `ads`;
 CREATE TABLE IF NOT EXISTS `ads` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `title` varchar(100) NOT NULL,
@@ -38,7 +39,10 @@ INSERT INTO `ads` (`title`, `description`, `photo`, `price`)
             50000
             );
 
-
+-- ----------------------------
+-- Table structure for photos
+-- ----------------------------
+DROP TABLE IF EXISTS `photos`;
 CREATE TABLE IF NOT EXISTS `photos` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `photo` VARCHAR(512),
@@ -47,7 +51,9 @@ CREATE TABLE IF NOT EXISTS `photos` (
     CONSTRAINT `photos_ads_fk` FOREIGN KEY (`adId`) REFERENCES `ads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
+-- ----------------------------
+-- Records of photos
+-- ----------------------------
 INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/', 1);
 INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/2', 2);
 INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/2_2', 2);
