@@ -44,14 +44,14 @@ abstract class AbstractRepository
     {
         $offset = ($page - 1) * $perPage;
         $query .= " LIMIT ${perPage} OFFSET ${offset}";
-
-        return $this->fetchAll($query);
-    }
-
-    protected function fetchAll(string $query): array
-    {
         $statement = $this->database->prepare($query);
         $statement->execute();
+
+        return $this->returnSelected($statement);
+    }
+
+    protected function returnSelected($statement): array
+    {
         $result = [];
         $fieldsToReturn = array_flip($this->fieldsToReturn);
         while ($row = $statement->fetch()) {

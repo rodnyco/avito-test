@@ -18,4 +18,21 @@ class AdService extends AbstractAdService
             $sorting,
         );
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function getById(int $adId): array
+    {
+        $selectedFields = ['title', 'photo', 'price', 'description', 'id'];
+        $ad = $this->adRepository
+            ->setFieldsToReturn($selectedFields)
+            ->getById($adId);
+        
+        if(empty($ad)) {
+            throw new \Exception("Ad not found", 404);
+        }
+
+        return $ad;
+    }
 }

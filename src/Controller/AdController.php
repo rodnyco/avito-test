@@ -13,7 +13,7 @@ class AdController extends AbstractController
     {
         //
     }
-    public function getByPage(Request $request, Response $response): Response
+    public function getAllByPage(Request $request, Response $response): Response
     {
         $sorting = ['id' => 'asc'];
         $page = 1;
@@ -34,8 +34,10 @@ class AdController extends AbstractController
         return $this->jsonResponse($response, 'success', $ads, 200);
     }
 
-    public function getById(Request $request, Response $response): Response
+    public function getById(Request $request, Response $response, array $args): Response
     {
-        //
+        $ad = $this->getAdService()->getById(intval($args['id']));
+
+        return $this->jsonResponse($response, 'success', $ad, 200);
     }
 }

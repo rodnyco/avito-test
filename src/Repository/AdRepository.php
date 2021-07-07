@@ -25,6 +25,16 @@ final class AdRepository extends AbstractRepository
         );
     }
 
+    public function getById(int $adId): array
+    {
+        $query = "SELECT * FROM `ads` WHERE `id` = :id";
+        $statement = $this->database->prepare($query);
+        $statement->bindParam(':id', $adId);
+        $statement->execute();
+
+        return $this->returnSelected($statement);
+    }
+
     private function setOrder(array $order): void
     {
         $orderString = "ORDER BY ";
