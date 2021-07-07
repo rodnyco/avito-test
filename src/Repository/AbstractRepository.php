@@ -40,7 +40,6 @@ abstract class AbstractRepository
         ];
     }
 
-    // TODO REFACTOR SETOFFSET!!
     protected function getResultByPage(string $query, int $page, int $perPage): array
     {
         $offset = ($page - 1) * $perPage;

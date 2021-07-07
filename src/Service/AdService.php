@@ -3,19 +3,18 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-//TODO: Rename To GetAllAddService
 class AdService extends AbstractAdService
 {
-    private int   $perPage = 10;
-    private array $selectedFields = ['title', 'photo', 'price'];
-
     public function getAdsByPage(int $page, array $sorting): array
     {
+        $perPage = 10;
+        $selectedFields = ['title', 'photo', 'price'];
+
         return $this->adRepository
-            ->setFieldsToReturn($this->selectedFields)
+            ->setFieldsToReturn($selectedFields)
             ->getAdsByPage(
             $page,
-            $this->perPage,
+            $perPage,
             $sorting,
         );
     }
