@@ -11,7 +11,8 @@ final class AdRepository extends AbstractRepository
     public function getAdsByPage(int $page, int $perPage, array $order): array
     {
         $this->setOrder($order);
-        $query = $this->getQuery();
+        $query = "SELECT * FROM `ads` ";
+        $query .= $this->order;
         $statement = $this->database->prepare($query);
         $statement->execute();
         $total = $statement->rowCount();
@@ -22,13 +23,6 @@ final class AdRepository extends AbstractRepository
             $perPage,
             $total
         );
-    }
-
-    private function getQuery(): string
-    {
-        $query = "SELECT * FROM `ads` ";
-        $query .= $this->order;
-        return $query;
     }
 
     private function setOrder(array $order): void
