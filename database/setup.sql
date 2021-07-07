@@ -38,4 +38,20 @@ INSERT INTO `ads` (`title`, `description`, `photo`, `price`)
             50000
             );
 
+
+CREATE TABLE IF NOT EXISTS `photos` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `photo` VARCHAR(512),
+    `adId` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `photos_ads_fk` FOREIGN KEY (`adId`) REFERENCES `ads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/', 1);
+INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/2', 2);
+INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/2_2', 2);
+INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/3', 3);
+INSERT INTO `photos` (`photo`, `adId`) VALUES ('https://photo.com/1_2', 1);
+
 SET FOREIGN_KEY_CHECKS = 1;
