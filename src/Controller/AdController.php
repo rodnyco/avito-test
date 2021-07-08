@@ -36,7 +36,11 @@ class AdController extends AbstractController
 
     public function getById(Request $request, Response $response, array $args): Response
     {
-        $ad = $this->getAdService()->getById(intval($args['id']));
+        if(isset($request->getQueryParams()['fields'])) {
+            $ad = $this->getAdService()->getFullAdById(intval($args['id']));
+        } else {
+            $ad = $this->getAdService()->getAdById(intval($args['id']));
+        }
 
         return $this->jsonResponse($response, 'success', $ad, 200);
     }

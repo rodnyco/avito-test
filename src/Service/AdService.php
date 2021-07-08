@@ -22,13 +22,27 @@ class AdService extends AbstractAdService
     /**
      * @throws \Exception
      */
-    public function getById(int $adId): array
+    public function getAdById(int $adId): array
     {
-        $selectedFields = ['title', 'photo', 'price', 'description', 'id'];
+        $selectedFields = ['title', 'photo', 'price'];
         $ad = $this->adRepository
             ->setFieldsToReturn($selectedFields)
-            ->getById($adId);
-        
+            ->getAdById($adId);
+
+        if(empty($ad)) {
+            throw new \Exception("Ad not found", 404);
+        }
+
+        return $ad;
+    }
+
+    public function getFullAdById(int $adId): array
+    {
+        $selectedFields = ['title', 'price', 'description', 'photo', 'aditionalPhotos'];
+        $ad = $this->adRepository
+            ->setFieldsToReturn($selectedFields)
+            ->getFullAdById($adId);
+
         if(empty($ad)) {
             throw new \Exception("Ad not found", 404);
         }

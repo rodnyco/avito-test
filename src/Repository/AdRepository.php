@@ -25,7 +25,7 @@ final class AdRepository extends AbstractRepository
         );
     }
 
-    public function getById(int $adId): array
+    public function getAdById(int $adId): array
     {
         $query = "SELECT * FROM `ads` WHERE `id` = :id";
         $statement = $this->database->prepare($query);
@@ -33,6 +33,31 @@ final class AdRepository extends AbstractRepository
         $statement->execute();
 
         return $this->returnSelected($statement);
+    }
+
+    public function getFullAdById(int $adId): array
+    {
+        $query = "SELECT ad.`title`, ad.`price`, ad.`description`, ad.`photo`,
+                         GROUP_CONCAT(photo.`photo` SEPARATOR ';') as aditionalPhotos
+                FROM `ads` ad
+                LEFT JOIN `photos` photo ON photo.`adId` = ad.`id`
+                WHERE ad.`id` = :id";;
+        $statement = $this->database->prepare($query);
+        $statement->bindParam(':id', $adId);
+        $statement->execute();
+
+        $qResult = $this->returnSelected($statement);
+        $ad = [];
+
+        if($qResult[0]['title'] != null) {
+            $ad = $qResult[0];
+        }
+
+        if($qResult[0]['aditionalPhotos'] != null) {
+            $ad['aditionalPhotos'] = explode(';', $qResult[0]['aditionalPhotos']);
+        }
+
+        return $ad;
     }
 
     private function setOrder(array $order): void
