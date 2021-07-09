@@ -4,9 +4,44 @@ declare(strict_types=1);
 namespace App\Repository;
 
 
+use App\Entity\Ad;
+
 final class AdRepository extends AbstractRepository
 {
     private string $order;
+
+    public function createAd(Ad $ad): Ad
+    {
+        $query = "
+            INSERT INTO `ads` 
+                (`title`, `description`, `photo`, `price`)
+            VALUES 
+                (:title, :description, :photo, :price)
+        ";
+        $statement = $this->database->prepare($query);
+
+        $title = $ad->getTitle();
+        $description = $ad->getDescription();
+        $photos = $ad->getPhotos();
+        $mainPhoto = $photos[0] ?? null;
+        $price = $ad->getPrice();
+
+        $statement->bindParam(':title', $title);
+        $statement->bindParam(':description', $description);
+        $statement->bindParam(':photo', $mainPhoto);
+        $statement->bindParam(':price', $price);
+
+        $statement->execute();
+        $adId = (int) $this->database->lastInsertId();
+        $ad->setId($adId);
+
+        if(count($photos) > 1) {
+            unset($photos[0]);
+            $this->createAdditionalPhotos($adId, $photos);
+        }
+
+        return $ad;
+    }
 
     public function getAdsByPage(int $page, int $perPage, array $order): array
     {
@@ -58,6 +93,19 @@ final class AdRepository extends AbstractRepository
         }
 
         return $ad;
+    }
+
+    private function createAdditionalPhotos(int $adId, array $photos): void
+    {
+        $query = "";
+        $insertQuery = " INSERT INTO `photos` (`photo`, `adId`) VALUES ";
+        foreach ($photos as $photo) {
+            $query = "INSERT INTO `photos` (`photo`, `adId`) VALUES (:photo, :adId)";
+            $statement = $this->database->prepare($query);
+            $statement->bindParam(':photo', $photo);
+            $statement->bindParam(':adId', $adId);
+            $statement->execute();
+        }
     }
 
     private function setOrder(array $order): void

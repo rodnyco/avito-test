@@ -9,10 +9,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class AdController extends AbstractController
 {
-    public function create(): Response
+    public function createAd(Request $request, Response $response): Response
     {
-        //
+        $rq = $request->getParsedBody();
+        $adId = $this->getAdService()->createAd($rq);
+
+        return $this->jsonResponse($response, 'success', ['id' => $adId], 200);
     }
+
     public function getAllByPage(Request $request, Response $response): Response
     {
         $sorting = ['id' => 'asc'];
